@@ -1,3 +1,5 @@
+import math
+
 from minitorch.operators import (
     mul,
     add,
@@ -18,7 +20,7 @@ from minitorch.operators import (
     sum,
 )
 from hypothesis import given
-from hypothesis.strategies import lists
+from hypothesis.strategies import lists, floats, integers
 from .strategies import small_floats, assert_close
 import pytest
 from minitorch import MathTest
@@ -98,44 +100,49 @@ def test_eq(a):
 @pytest.mark.task0_2
 @given(small_floats)
 def test_sigmoid(a):
-    """Check properties of the sigmoid function, specifically
-    * It is always between 0.0 and 1.0.
-    * one minus sigmoid is the same as negative sigmoid
-    * It crosses 0 at 0.5
-    * it is  strictly increasing.
     """
-    # TODO: Implement for Task 0.2.
-    raise NotImplementedError("Need to implement for Task 0.2")
+    Check properties of the sigmoid function, specifically
+    """
+    assert 0.0 <= sigmoid(a) <= 1.0
+    assert_close(1 - sigmoid(a), sigmoid(-a))
+    if a > 0:
+        assert sigmoid(a) > 0.5
+    else:
+        assert sigmoid(a) <= 0.5
+    
+    assert sigmoid(a + 1) >= sigmoid(a)
 
 
 @pytest.mark.task0_2
 @given(small_floats, small_floats, small_floats)
 def test_transitive(a, b, c):
     "Test the transitive property of less-than (a < b and b < c implies a < c)"
-    # TODO: Implement for Task 0.2.
-    raise NotImplementedError("Need to implement for Task 0.2")
+    if lt(a, b) and lt(b, c):
+        assert lt(a, c)
+    elif lt(a, c) and lt(c, b):
+        assert lt(a, b)
+    elif lt(b, a) and lt(a, c):
+        assert lt(b, c)
 
 
 @pytest.mark.task0_2
-def test_symmetric():
+@given(floats(allow_infinity=False, allow_nan=False), floats(allow_infinity=False, allow_nan=False))
+def test_symmetric(a, b):
     """
     Write a test that ensures that :func:`minitorch.operators.mul` is symmetric, i.e.
     gives the same value regardless of the order of its input.
     """
-    None
-    # TODO: Implement for Task 0.2.
-    raise NotImplementedError("Need to implement for Task 0.2")
+    assert mul(a, b) == mul(b, a)
 
 
 @pytest.mark.task0_2
-def test_distribute():
+@given(integers(), integers(), integers())
+def test_distribute(a, b, c):
     r"""
     Write a test that ensures that your operators distribute, i.e.
     :math:`z \times (x + y) = z \times x + z \times y`
     """
-    None
-    # TODO: Implement for Task 0.2.
-    raise NotImplementedError("Need to implement for Task 0.2")
+    assert mul(a, add(b, c)) == add(mul(a, b), mul(a, c))
 
 
 @pytest.mark.task0_2
