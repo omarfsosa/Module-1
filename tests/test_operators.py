@@ -20,8 +20,8 @@ from minitorch.operators import (
     sum,
 )
 from hypothesis import given
-from hypothesis.strategies import lists, floats, integers
-from .strategies import small_floats, assert_close
+from hypothesis.strategies import lists, floats
+from .strategies import small_floats, assert_close, med_ints
 import pytest
 from minitorch import MathTest
 
@@ -136,7 +136,7 @@ def test_symmetric(a, b):
 
 
 @pytest.mark.task0_2
-@given(integers(), integers(), integers())
+@given(med_ints, med_ints, med_ints)
 def test_distribute(a, b, c):
     r"""
     Write a test that ensures that your operators distribute, i.e.
@@ -146,13 +146,13 @@ def test_distribute(a, b, c):
 
 
 @pytest.mark.task0_2
-def test_other():
+@given(small_floats)
+def test_other(a):
     """
     Write a test that ensures some other property holds for your functions.
     """
-    None
-    # TODO: Implement for Task 0.2.
-    raise NotImplementedError("Need to implement for Task 0.2")
+    assert mul(a, 1) == a
+    assert add(a, 0) == a
 
 
 # ## Task 0.3  - Higher-order functions
