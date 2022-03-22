@@ -22,13 +22,14 @@ class Module:
     def train(self):
         "Set the mode of this module and all descendent modules to `train`."
         self.training = True
-        for module_name in self._modules:
-            self._modules[module_name].training = True
+        for module in self.modules():
+            module.train()
 
     def eval(self):
         "Set the mode of this module and all descendent modules to `eval`."
-        # TODO: Implement for Task 0.4.
-        raise NotImplementedError("Need to implement for Task 0.4")
+        self.training = False
+        for module in self.modules():
+            module.eval()
 
     def _named_parameters(self):
         """
@@ -47,12 +48,12 @@ class Module:
         return my_parameters
 
     def named_parameters(self):
+        # [("p", 5), ("a.p2", 10), ("b.c.p3", 15)]
         return list(self._named_parameters().items())
-        
+
     def parameters(self):
         "Enumerate over all the parameters of this module and its descendents."
-        # TODO: Implement for Task 0.4.
-        raise NotImplementedError("Need to implement for Task 0.4")
+        return [val for key, val in self.named_parameters()]
 
     def add_parameter(self, k, v):
         """

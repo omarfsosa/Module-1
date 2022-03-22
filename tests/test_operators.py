@@ -109,7 +109,7 @@ def test_sigmoid(a):
         assert sigmoid(a) > 0.5
     else:
         assert sigmoid(a) <= 0.5
-    
+
     assert sigmoid(a + 1) >= sigmoid(a)
 
 
@@ -159,8 +159,6 @@ def test_other(a):
 
 # These tests check that your higher-order functions obey basic
 # properties.
-
-
 @pytest.mark.task0_3
 @given(small_floats, small_floats, small_floats, small_floats)
 def test_zip_with(a, b, c, d):
@@ -180,8 +178,8 @@ def test_sum_distribute(ls1, ls2):
     Write a test that ensures that the sum of `ls1` plus the sum of `ls2`
     is the same as the sum of each element of `ls1` plus each element of `ls2`.
     """
-    # TODO: Implement for Task 0.3.
-    raise NotImplementedError("Need to implement for Task 0.3")
+    assert addLists(ls1, ls2) == [a + b for a, b in zip(ls1, ls2)]
+    # assert sum(ls1 + ls2) == sum(ls1) + sum(ls2)
 
 
 @pytest.mark.task0_3
