@@ -1,5 +1,3 @@
-import math
-
 from minitorch.operators import (
     mul,
     add,
