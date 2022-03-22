@@ -21,25 +21,41 @@ class Module:
 
     def train(self):
         "Set the mode of this module and all descendent modules to `train`."
-        raise NotImplementedError('Need to include this file from past assignment.')
+        self.training = True
+        for module in self.modules():
+            module.train()
 
     def eval(self):
         "Set the mode of this module and all descendent modules to `eval`."
-        raise NotImplementedError('Need to include this file from past assignment.')
+        self.training = False
+        for module in self.modules():
+            module.eval()
 
-    def named_parameters(self):
+    def _named_parameters(self):
         """
         Collect all the parameters of this module and its descendents.
 
-
         Returns:
-            list of pairs: Contains the name and :class:`Parameter` of each ancestor parameter.
+            dict: Contains the name and :class:`Parameter` of each ancestor parameter.
         """
-        raise NotImplementedError('Need to include this file from past assignment.')
+        children = self._modules  # {"a": A2, "b": A3}
+        my_parameters = dict(self._parameters)  # {"p1": 5}
+        for child in children:  # a
+            child_params = children[child]._named_parameters()  # {'p2': 10}
+            child_params = {
+                f"{child}.{key}": value for key, value in child_params.items()
+            }
+            my_parameters.update(child_params)
+
+        return my_parameters
+
+    def named_parameters(self):
+        # [("p", 5), ("a.p2", 10), ("b.c.p3", 15)]
+        return list(self._named_parameters().items())
 
     def parameters(self):
         "Enumerate over all the parameters of this module and its descendents."
-        raise NotImplementedError('Need to include this file from past assignment.')
+        return [val for key, val in self.named_parameters()]
 
     def add_parameter(self, k, v):
         """
