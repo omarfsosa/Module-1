@@ -264,9 +264,10 @@ def map(fn):
         function : A function that takes a list, applies `fn` to each element, and returns a
         new list
     """
+
     def mapped_fn(ls):
         return [fn(i) for i in ls]
-    
+
     return mapped_fn
 
 
@@ -291,9 +292,10 @@ def zipWith(fn):
         applying fn(x, y) on each pair of elements.
 
     """
+
     def zipped_fun(ls1, ls2):
         return [fn(a, b) for a, b in zip(ls1, ls2)]
-    
+
     return zipped_fun
 
 
@@ -318,11 +320,12 @@ def reduce(fn, start):
         :math:`x_1 \ldots x_n` and computes the reduction :math:`fn(x_3, fn(x_2,
         fn(x_1, x_0)))`
     """
+
     def reduced_fn(ls):
         result = start
         for x in ls:
             result = fn(result, x)
-        
+
         return result
 
     return reduced_fn

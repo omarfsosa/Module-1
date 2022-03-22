@@ -42,7 +42,9 @@ class Module:
         my_parameters = dict(self._parameters)  # {"p1": 5}
         for child in children:  # a
             child_params = children[child]._named_parameters()  # {'p2': 10}
-            child_params = {f"{child}.{key}": value for key, value in child_params.items()}
+            child_params = {
+                f"{child}.{key}": value for key, value in child_params.items()
+            }
             my_parameters.update(child_params)
 
         return my_parameters
