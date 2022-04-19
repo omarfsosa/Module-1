@@ -33,6 +33,9 @@ class Function2(minitorch.ScalarFunction):
         return d_output * (y + 1), d_output * x
 
 
+# f(x, y) = xy + x
+# df/dx   = y + 1 = (dx / dx) * y + (dx/dx)
+# df/dy   = x
 # Checks for the chain rule function.
 
 
@@ -59,7 +62,7 @@ def test_chain_rule2():
 
 @pytest.mark.task1_3
 def test_chain_rule3():
-    "Check that constrants are ignored and variables get derivatives."
+    "Check that constants are ignored and variables get derivatives."
     constant = 10
     var = minitorch.Scalar(5)
 

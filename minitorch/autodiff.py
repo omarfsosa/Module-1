@@ -1,6 +1,5 @@
 variable_count = 1
 
-
 # ## Module 1
 
 # Variable is the main class for autodifferentiation logic for scalars
@@ -269,15 +268,14 @@ class FunctionBase:
         Returns:
             list of (`Variable`, number) : A list of non-constant variables with their derivatives
             (see `is_constant` to remove unneeded variables)
-
         """
-        # Tip: Note when implementing this function that
-        # cls.backward may return either a value or a tuple.
-        # TODO: Implement for Task 1.3.
-        raise NotImplementedError('Need to implement for Task 1.3')
-
-
-# Algorithms for backpropagation
+        d_outputs = cls.backward(ctx, d_output)
+        return [
+            (variable, derivative)
+            for variable, derivative
+            in zip(inputs, d_outputs)
+            if not is_constant(variable)
+        ]
 
 
 def is_constant(val):
